@@ -7,15 +7,29 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependency directories
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Build directories
+dist/
+dist-ssr/
+frontend/dist/
+backend/dist/
+
+# Environment files
+.env
+frontend/.env
+backend/.env
+
+# Local environment files
 *.local
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
@@ -23,5 +37,38 @@ dist-ssr
 *.sln
 *.sw?
 
-.env
-backend/.env 
+# Output of npm scripts
+coverage/
+*.cache/
+*.next/
+.next/
+out/
+
+# Lockfiles
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# OS generated files
+Thumbs.db
+desktop.ini
+
+# Optional npm cache directory
+.npm/
+
+# Optional Yarn cache directory
+.yarn/
+
+# Optional pnpm cache directory
+.pnpm/
+
+# Testing
+*.log
+coverage/
+*.lcov
+
+# Miscellaneous
+.envrc
+.eslintcache
+.parcel-cache
+.cache/
