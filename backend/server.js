@@ -22,12 +22,12 @@ app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)
 
 //middle wares
-app.use((err,req,res,next)=>{
-const statusCode = errr.statusCode || 500 ;
-const message = err.message || 'Internal Server error';
-return res.status(statusCode).json({
-    sucess:false,
-    error:message,
-    statusCode:statusCode,
-})
-})
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;  // Fixed typo from 'errr' to 'err'
+    const message = err.message || 'Internal Server error';
+    return res.status(statusCode).json({
+      success: false,    // Also fixed typo in 'success'
+      error: message,
+      statusCode: statusCode,
+    })
+  });
