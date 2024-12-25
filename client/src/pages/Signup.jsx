@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -9,6 +9,7 @@ function Signup() {
   });
 
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -26,13 +27,19 @@ function Signup() {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
+
       if (data.success === false) {
         setMessage(data.error);
         setTimeout(() => setMessage(''), 4000);
         return;
       }
-      setMessage('New user created successfully!');
-      setTimeout(() => setMessage(''), 4000);
+
+      setMessage('Signup successful! Redirecting to SignIn page.');
+      setTimeout(() => {
+        setMessage('');
+        navigate('/sign-in');
+      }, 1000); // 4-second delay before navigating
+
       setFormData({
         username: '',
         email: '',
@@ -56,7 +63,7 @@ function Signup() {
           id="username"
           className="border-b border-black bg-transparent py-2 sm:py-3 px-1 focus:outline-none focus:border-b-2 transition-all placeholder:text-black/60 placeholder:font-light"
           onChange={handleChange}
-          value={formData.username || ''}
+          value={formData.username}
         />
         <input
           type="email"
@@ -64,7 +71,7 @@ function Signup() {
           id="email"
           className="border-b border-black bg-transparent py-2 sm:py-3 px-1 focus:outline-none focus:border-b-2 transition-all placeholder:text-black/60 placeholder:font-light"
           onChange={handleChange}
-          value={formData.email || ''}
+          value={formData.email}
         />
         <input
           type="password"
@@ -72,7 +79,7 @@ function Signup() {
           id="password"
           className="border-b border-black bg-transparent py-2 sm:py-3 px-1 focus:outline-none focus:border-b-2 transition-all placeholder:text-black/60 placeholder:font-light"
           onChange={handleChange}
-          value={formData.password || ''}
+          value={formData.password}
         />
         <button className="mt-4 sm:mt-6 border border-black px-6 sm:px-8 py-2 sm:py-3 hover:bg-black hover:text-white transition-colors font-light tracking-wide">
           Sign Up
@@ -80,15 +87,15 @@ function Signup() {
       </form>
 
       <div>
-        <p className='font-mono text-lg sm:text-xl tracking-tight text-black/80 mt-5'>
+        <p className="font-mono text-lg sm:text-xl tracking-tight text-black/80 mt-5">
           Already have an account? 
-          <Link to='/sign-in'>
-            <span className='mx-3 font-mono text-lg sm:text-xl tracking-tight text-gray-700 hover:text-teal-500'>Sign In</span>
+          <Link to="/sign-in">
+            <span className="mx-3 font-mono text-lg sm:text-xl tracking-tight text-gray-700 hover:text-teal-500">Sign In</span>
           </Link>
         </p>
       </div>
       <div>
-        <p className='mx-3 font-mono text-lg sm:text-xl tracking-tight text-red-700'>{message}</p>
+        <p className="mx-3 font-mono text-lg sm:text-xl tracking-tight text-red-700">{message}</p>
       </div>
     </div>
   );
