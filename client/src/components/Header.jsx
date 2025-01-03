@@ -9,7 +9,7 @@ function Header() {
     <div className="bg-white border-b border-black">
       <div className="flex flex-wrap justify-between items-center max-w-6xl mx-auto py-4 px-4 md:py-6 md:px-6">
         <h1 className="font-mono text-black text-xl md:text-2xl tracking-tight">
-          MERN Auth Boilerplate
+          BrushPixels
         </h1>
         <ul className="flex flex-wrap gap-6 md:gap-12 text-sm md:text-base font-light tracking-wider uppercase">
           <Link to="/" className="group">

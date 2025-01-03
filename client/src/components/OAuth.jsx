@@ -6,13 +6,12 @@ import { signInSuccess } from '../redux/user/userSlice';
 
 function OAuth() {
   const dispatch = useDispatch();
-
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
-
+  
       const response = await fetch('/api/auth/google', {
         method: 'POST',
         headers: {
@@ -24,14 +23,14 @@ function OAuth() {
           photo: result.user.photoURL,
         }),
       });
-
+  
       const data = await response.json();
       dispatch(signInSuccess(data));
     } catch (error) {
       console.log("Couldn't log in with Google", error);
     }
   };
-
+  
   return (
     <button
       onClick={handleGoogleClick}
