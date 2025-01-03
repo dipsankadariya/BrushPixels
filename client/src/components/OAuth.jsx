@@ -4,9 +4,9 @@ import { app } from '../firebase';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice';
 function OAuth() {
-
+  const dispatch= useDispatch();
     const  handleGoogleClick =async()=>{
-      const dispatch= useDispatch();
+     
         try{
        const provider =new GoogleAuthProvider();
        const  auth = getAuth(app);
