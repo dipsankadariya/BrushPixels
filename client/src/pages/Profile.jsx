@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { updateUserFailure, updateUserSucess, updateUserStart } from '../redux/user/userSlice';
 import { deleteUserStart, deleteUserFailure, deleteUserSucess } from '../redux/user/userSlice';
-
+import { signOut } from '../redux/user/userSlice';
 function Profile() {
  const { currentUser } = useSelector((state) => state.user);
  const [formData, setFormData] = useState({});
@@ -65,6 +65,16 @@ function Profile() {
    }
  };
 
+const  handleSignOut =async()=>{
+   try{
+      await fetch('api/user/signout',);
+      dispatch(signOut());
+   }
+   catch(error){
+    console.log(error);
+   }
+}
+
  return (
    <div className="max-w-md mx-auto px-2 sm:mt-10 sm:px-6">
      <div className="text-center mb-12 sm:mb-16">
@@ -109,7 +119,7 @@ function Profile() {
        <span onClick={handleDeleteAccount} className="font-mono text-lg sm:text-xl tracking-tight text-red-700 cursor-pointer hover:underline">
          Delete Account
        </span>
-       <span className="font-mono text-lg sm:text-xl tracking-tight text-gray-700 cursor-pointer hover:underline">
+       <span onClick={handleSignOut} className="font-mono text-lg sm:text-xl tracking-tight text-gray-700 cursor-pointer hover:underline">
          Sign Out
        </span>
      </div>
