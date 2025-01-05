@@ -22,7 +22,16 @@ function Header() {
               About
             </li>
           </Link>
+           {/* Link to the 'Upload Artwork' page */}
+           {currentUser && (
+            <Link to="/uploadartwork" className="group">
+              <li className="relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-black after:transition-all group-hover:after:w-full">
+                Upload Artwork
+              </li>
+            </Link>
+          )}
 
+          {/* Show 'Sign In' or profile picture if user is signed in */}
           <Link to="/profile" className="group">
             {currentUser ? (
               <img
@@ -36,6 +45,8 @@ function Header() {
               </li>
             )}
           </Link>
+
+         
         </ul>
       </div>
     </div>

@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.routes.js'
 import authRoutes from './routes/auth.routes.js'
 import cookieParser from 'cookie-parser';
+import artworkRoutes from './routes/artwork.routes.js';
+
 
 dotenv.config();
 const  app= express();
@@ -22,7 +24,7 @@ app.listen(3000,()=>{
 //routes
 app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)
-
+app.use('/api/artwork',artworkRoutes);
 //middle wares
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;  // Fixed typo from 'errr' to 'err'
