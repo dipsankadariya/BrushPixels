@@ -1,91 +1,117 @@
 import React, { useState } from 'react';
 
 function ImageUpload() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [file, setFile] = useState(null);
-  const [message, setMessage] = useState('');
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    file: null
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    if (e.target.type === 'file') {
+      setFormData({ ...formData, file: e.target.files[0] });
+    } else {
+      setFormData({ ...formData, [e.target.id]: e.target.value });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-  
-    const formData = new FormData();
-    formData.append('artwork', file);
-    formData.append('imgTitle', title);
-    formData.append('imgDescription', description);
+    setLoading(true);
+    setError('');
+
+    const submitFormData = new FormData();
+    submitFormData.append('artwork', formData.file);
+    submitFormData.append('imgTitle', formData.title);
+    submitFormData.append('imgDescription', formData.description);
 
     try {
       const response = await fetch('/api/artwork/uploadart', {
         method: 'POST',
-        body: formData,
+        body: submitFormData,
       });
 
       const data = await response.json();
-      setMessage(data.message);
 
-      if (response.ok) {
-        // Clear form on success
-        setTitle('');
-        setDescription('');
-        setFile(null);
+      if (!response.ok) {
+        throw new Error(data.message || 'Upload failed');
       }
+
+      // Clear form on success
+      setFormData({
+        title: '',
+        description: '',
+        file: null
+      });
+      
     } catch (error) {
-      setMessage('Upload failed');
+      setError(error.message || 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-6">Upload Artwork</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title:</label>
+    <div className="max-w-md mx-auto mt-10 px-4 sm:mt-20 sm:px-6">
+      <div className="text-center mb-12 sm:mb-16">
+        <h1 className="font-mono text-2xl sm:text-3xl mb-2 sm:mb-3 tracking-tight">Brush Pixels</h1>
+        <h2 className="font-mono text-lg sm:text-xl tracking-tight text-black/80">Upload Artwork</h2>
+      </div>
+      
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-6">
+        <input
+          type="text"
+          placeholder="Title"
+          id="title"
+          value={formData.title}
+          className="border-b border-black bg-transparent py-2 sm:py-3 px-1 focus:outline-none focus:border-b-2 transition-all placeholder:text-black/60 placeholder:font-light"
+          onChange={handleChange}
+          required
+        />
+        <textarea
+          placeholder="Description"
+          id="description"
+          value={formData.description}
+          className="border-b border-black bg-transparent py-2 sm:py-3 px-1 focus:outline-none focus:border-b-2 transition-all placeholder:text-black/60 placeholder:font-light resize-none"
+          onChange={handleChange}
+          required
+        />
+        <div className="flex flex-col gap-2">
+          <label 
+            htmlFor="file" 
+            className="font-mono text-sm tracking-tight text-black/80"
+          >
+            Select Artwork:
+          </label>
           <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description:</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-        <div>
-          <label htmlFor="file" className="block text-sm font-medium text-gray-700">Artwork:</label>
-          <input
-            id="file"
             type="file"
+            id="file"
             accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleChange}
+            className="file:mr-4 file:py-2 file:px-4 file:border file:border-black file:text-sm file:font-light
+                     file:bg-transparent hover:file:bg-black hover:file:text-white file:transition-colors
+                     text-sm text-black/60"
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
+        
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          Upload
-        </button>
-      </form>
-      {message && (
-        <p
-          className={`mt-4 text-center text-sm font-semibold ${
-            message === 'Upload failed' ? 'text-red-500' : 'text-green-500'
+          disabled={loading}
+          className={`mt-4 sm:mt-6 border border-black px-6 sm:px-8 py-2 sm:py-3 hover:bg-black hover:text-white transition-colors font-light tracking-wide ${
+            loading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {message}
-        </p>
+          {loading ? 'Uploading...' : 'Upload Artwork'}
+        </button>
+      </form>
+
+      {error && (
+        <div>
+          <p className="mx-3 font-mono text-lg sm:text-xl tracking-tight text-red-700 mt-4">{error}</p>
+        </div>
       )}
     </div>
   );

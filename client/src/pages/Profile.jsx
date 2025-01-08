@@ -49,21 +49,23 @@ function Profile() {
  };
 
  const handleDeleteAccount = async () => {
-   try {
-     dispatch(deleteUserStart());
-     const response = await fetch(`/api/user/delete/${currentUser._id}`, {
-       method: 'DELETE',
-     });
-     const data = await response.json();
-     if (data.success === false) {
-       dispatch(deleteUserFailure());
-       return;
-     }
-     dispatch(deleteUserSucess());
-   } catch (error) {
-     dispatch(deleteUserFailure());
-   }
- };
+  try {
+    dispatch(deleteUserStart());
+    const response = await fetch(`/api/user/delete/${currentUser._id}`, {
+      method: 'DELETE',
+    });
+    const data = await response.json();
+    if (data.success === false) {
+      dispatch(deleteUserFailure());
+      return;
+    }
+    dispatch(deleteUserSucess());
+    dispatch(signOut()); // Add this line to clear Redux state
+    window.location.href = '/sign-in'; // Force redirect to sign-in page
+  } catch (error) {
+    dispatch(deleteUserFailure());
+  }
+};
 
 const  handleSignOut =async()=>{
    try{
