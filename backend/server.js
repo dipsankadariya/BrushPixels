@@ -6,7 +6,6 @@ import authRoutes from './routes/auth.routes.js'
 import cookieParser from 'cookie-parser';
 import artworkRoutes from './routes/artwork.routes.js';
 
-
 dotenv.config();
 const  app= express();
 app.use(express.json());
@@ -24,13 +23,15 @@ app.listen(3000,()=>{
 //routes
 app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)
-app.use('/api/artwork',artworkRoutes);
+app.use('/api/artwork',artworkRoutes)
+
+
 //middle wares
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;  // Fixed typo from 'errr' to 'err'
+    const statusCode = err.statusCode || 500; 
     const message = err.message || 'Internal Server error';
     return res.status(statusCode).json({
-      success: false,    // Also fixed typo in 'success'
+      success: false,    
       error: message,
       statusCode: statusCode,
     })
