@@ -14,6 +14,11 @@ const artworkSchema = new mongoose.Schema({
    type:String,
    required:true,
    },
+    imgUrl: {
+      type: String,
+      required: true,
+     }
+   
 },
 {timestamps:true});
 const Artwork = mongoose.model('Artwork',artworkSchema);

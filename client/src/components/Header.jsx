@@ -22,6 +22,8 @@ function Header() {
               About
             </li>
           </Link>
+
+
            {/* Link to the 'Upload Artwork' page */}
            {currentUser && (
             <Link to="/uploadartwork" className="group">
@@ -30,6 +32,16 @@ function Header() {
               </li>
             </Link>
           )}
+              
+                 {/* Link to the 'Upload Artwork' page */}
+           {currentUser && (
+            <Link to="/dashboard" className="group">
+              <li className="relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-black after:transition-all group-hover:after:w-full">
+                Dashboard
+              </li>
+            </Link>
+          )}
+
 
           {/* Show 'Sign In' or profile picture if user is signed in */}
           <Link to="/profile" className="group">

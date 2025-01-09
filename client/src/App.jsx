@@ -8,6 +8,7 @@ import Signup from './pages/Signup'
 import Profile from './pages/Profile'
 import PrivateRoute from './components/PrivateRoute'
 import ImageUpload from './pages/ImageUpload'
+import Dashboard from './pages/Dashboard'
 function App() {
   return (
 
@@ -21,6 +22,7 @@ function App() {
     <Route element={<PrivateRoute />}>
     <Route path="/profile" element={<Profile />} />
     <Route path="/uploadartwork"  element={<ImageUpload />} /> 
+    <Route path='/dashboard' element={<Dashboard/>}></Route>
     </Route>
   </Routes>
    </BrowserRouter>
