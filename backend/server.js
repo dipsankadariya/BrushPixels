@@ -5,6 +5,7 @@ import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
 import artworkRoutes from './routes/artwork.routes.js';
+import followerRoutes from './routes/userfollow.routes.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.listen(3000, () => {
 
 // Routes
 app.use('/api/user', userRoutes);
+app.use('/api/user/followers',followerRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/artwork', artworkRoutes);
 
