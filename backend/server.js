@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
 import artworkRoutes from './routes/artwork.routes.js';
 import followerRoutes from './routes/userfollow.routes.js';
+import notificationroutes from './routes/notification.routes.js'
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-mongoose.connect(process.env.MONGO_URI).then(() => {
+mongoose.connect('mongodb+srv://dipsankadariya99:ZSwylEH9OSaTPRZS@brushpixels.lnfwt.mongodb.net/brushpixels?retryWrites=true&w=majority&appName=brushpixels').then(() => {
     console.log('Connected to database');
 }).catch((error) => {
     console.log(error);
@@ -26,6 +27,7 @@ app.listen(3000, () => {
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/user/followers',followerRoutes);
+app.use('/api/user/notification',notificationroutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/artwork', artworkRoutes);
 
